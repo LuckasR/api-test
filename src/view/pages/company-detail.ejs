@@ -1,22 +1,686 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr" data-theme="light">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détail Company</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root[data-theme="light"] {
+            --bg: #f5f4f0;
+            --surface: #ffffff;
+            --surface-2: #f0efeb;
+            --border: #e2e0d8;
+            --text-primary: #1a1916;
+            --text-secondary: #6b6760;
+            --text-muted: #a09d96;
+            --accent: #1a1916;
+            --accent-fg: #ffffff;
+            --green: #2d6a4f;
+            --green-bg: #d8f3dc;
+            --red: #9b2335;
+            --red-bg: #fde8ec;
+            --yellow: #7a5c00;
+            --yellow-bg: #fff3cd;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #111110;
+            --surface: #1c1c1a;
+            --surface-2: #242422;
+            --border: #2e2e2b;
+            --text-primary: #e8e6e1;
+            --text-secondary: #8a8782;
+            --text-muted: #5a5855;
+            --accent: #e8e6e1;
+            --accent-fg: #111110;
+            --green: #52b788;
+            --green-bg: #1a2e22;
+            --red: #e07070;
+            --red-bg: #2e1a1a;
+            --yellow: #e6b84a;
+            --yellow-bg: #2a2210;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            transition: background 0.2s, color 0.2s;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* TOP BAR */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 32px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 6px;
+            transition: all 0.15s;
+        }
+
+        .back-link:hover {
+            background: var(--surface-2);
+            color: var(--text-primary);
+        }
+
+        .topbar-divider {
+            width: 1px;
+            height: 16px;
+            background: var(--border);
+        }
+
+        .breadcrumb {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .breadcrumb strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* THEME TOGGLE */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .theme-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .theme-btn.active {
+            background: var(--surface);
+            color: var(--text-primary);
+            box-shadow: var(--shadow);
+        }
+
+        /* MAIN LAYOUT */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 32px 24px 64px;
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .company-title {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            margin-bottom: 4px;
+        }
+
+        .company-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-family: 'DM Mono', monospace;
+        }
+
+        /* ACTION BAR */
+        .action-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--accent-fg);
+            border-color: var(--accent);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.85;
+        }
+
+        .btn-outline {
+            background: var(--surface);
+            color: var(--text-primary);
+            border-color: var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline:hover {
+            background: var(--surface-2);
+            border-color: var(--text-muted);
+        }
+
+        /* SECTIONS */
+        .section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .section-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .section-body {
+            padding: 20px;
+        }
+
+        /* INFO GRID */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .info-item label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 3px;
+        }
+
+        .info-item span {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        /* BADGE */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-green {
+            background: var(--green-bg);
+            color: var(--green);
+        }
+
+        .badge-red {
+            background: var(--red-bg);
+            color: var(--red);
+        }
+
+        .badge-yellow {
+            background: var(--yellow-bg);
+            color: var(--yellow);
+        }
+
+        .badge-neutral {
+            background: var(--surface-2);
+            color: var(--text-secondary);
+        }
+
+        .badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        /* ACTIVE SUBSCRIPTION CARD */
+        .active-sub {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .active-sub-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .active-sub-name {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .active-sub-expire {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .no-sub {
+            color: var(--text-secondary);
+            font-size: 14px;
+            padding: 8px 0;
+        }
+
+        /* TABLES */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+
+        .data-table thead th {
+            text-align: left;
+            padding: 10px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table thead th:first-child {
+            border-radius: 0;
+        }
+
+        .data-table tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.1s;
+        }
+
+        .data-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--surface-2);
+        }
+
+        .data-table tbody td {
+            padding: 12px 16px;
+            color: var(--text-primary);
+            vertical-align: middle;
+        }
+
+        .data-table tbody td.mono {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .user-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .user-link:hover {
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .days-remaining {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state {
+            padding: 32px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* COUNT CHIP */
+        .count-chip {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1px 7px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-family: 'DM Mono', monospace;
+        }
+
+        /* ACTIVE INDICATOR */
+        .actif-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+        }
+
+        .actif-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        .actif-dot.oui { background: var(--green); }
+        .actif-dot.non { background: var(--text-muted); }
+
+        @media (max-width: 600px) {
+            .topbar { padding: 0 16px; }
+            .container { padding: 20px 16px 48px; }
+            .info-grid { grid-template-columns: 1fr 1fr; }
+            .action-bar { gap: 6px; }
+            .data-table { font-size: 12.5px; }
+            .data-table thead th, .data-table tbody td { padding: 9px 10px; }
+        }
+    </style>
 </head>
 <body>
 
-<h1>Détail Company 🏢</h1>
+<!-- TOP BAR -->
+<nav class="topbar">
+    <div class="topbar-left">
+        <a href="/admin/companies" class="back-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 5l-7 7 7 7"/>
+            </svg>
+            Retour
+        </a>
+        <div class="topbar-divider"></div>
+        <span class="breadcrumb">Companies / <strong><%= company.name %></strong></span>
+    </div>
 
-<p><strong>ID :</strong> <%= company.id %></p>
-<p><strong>Nom :</strong> <%= company.name %></p>
-<p><strong>Adresse :</strong> <%= company.adresse %></p>
-<p><strong>Ville :</strong> <%= company.ville %></p>
-<p><strong>Pays :</strong> <%= company.pays %></p>
-<p><strong>Email :</strong> <%= company.contact_email %></p>
-<p><strong>Téléphone :</strong> <%= company.contact_phone %></p>
+    <div class="theme-toggle">
+        <button class="theme-btn active" id="btn-light" onclick="setTheme('light')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            Clair
+        </button>
+        <button class="theme-btn" id="btn-dark" onclick="setTheme('dark')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            Sombre
+        </button>
+    </div>
+</nav>
 
-<br>
-<a href="/admin/companies">⬅ Retour à la liste</a>
+<!-- MAIN -->
+<main class="container">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="company-title"><%= company.name %></div>
+        <div class="company-meta">ID #<%= company.id %></div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="action-bar">
+        <a href="/admin/companies/<%= company.id %>/users/create" class="btn btn-primary">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Ajouter User
+        </a>
+        <a href="/admin/companies/<%= company.id %>/abonnements/create" class="btn btn-outline">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Ajouter Abonnement
+        </a>
+        <a href="/admin/companies/<%= company.id %>/edit" class="btn btn-outline">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Modifier
+        </a>
+    </div>
+
+    <!-- COMPANY INFO -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-title">Informations</span>
+        </div>
+        <div class="section-body">
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Nom</label>
+                    <span><%= company.name %></span>
+                </div>
+                <div class="info-item">
+                    <label>Adresse</label>
+                    <span><%= company.adresse %></span>
+                </div>
+                <div class="info-item">
+                    <label>Ville</label>
+                    <span><%= company.ville %></span>
+                </div>
+                <div class="info-item">
+                    <label>Pays</label>
+                    <span><%= company.pays %></span>
+                </div>
+                <div class="info-item">
+                    <label>Email</label>
+                    <span><%= company.contact_email %></span>
+                </div>
+                <div class="info-item">
+                    <label>Téléphone</label>
+                    <span><%= company.contact_phone %></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACTIVE SUBSCRIPTION -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-title">Abonnement actif</span>
+        </div>
+        <div class="section-body">
+            <% const actif = abonnements.find(a => a.status_generalized?.code === 'ACTIF'); %>
+            <% if (actif) { %>
+                <div class="active-sub">
+                    <div class="active-sub-info">
+                        <span class="badge badge-green"><span class="dot"></span> Actif</span>
+                        <div>
+                            <div class="active-sub-name"><%= actif.abonnements?.nom %></div>
+                            <div class="active-sub-expire">Expire le <%= new Date(actif.date_fin).toLocaleDateString('fr-FR') %></div>
+                        </div>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="no-sub">Aucun abonnement actif</div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- SUBSCRIPTIONS TABLE -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-title">Abonnements</span>
+            <% if (abonnements && abonnements.length > 0) { %>
+                <span class="count-chip"><%= abonnements.length %></span>
+            <% } %>
+        </div>
+
+        <% if (!abonnements || abonnements.length === 0) { %>
+            <div class="empty-state">Aucun abonnement enregistré</div>
+        <% } else { %>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Prix</th>
+                        <th>Date début</th>
+                        <th>Date fin</th>
+                        <th>Statut</th>
+                        <th>Restant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% abonnements.forEach(a => {
+                        const today = new Date();
+                        const end = new Date(a.date_fin);
+                        const diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
+                    %>
+                        <tr>
+                            <td class="mono">#<%= a.id %></td>
+                            <td><strong><%= a.abonnements?.nom || '—' %></strong></td>
+                            <td class="mono"><%= a.abonnements?.prix ? a.abonnements.prix + ' €' : '—' %></td>
+                            <td><%= new Date(a.date_debut).toLocaleDateString('fr-FR') %></td>
+                            <td><%= new Date(a.date_fin).toLocaleDateString('fr-FR') %></td>
+                            <td>
+                                <% if (a.status_generalized?.code === 'ACTIF') { %>
+                                    <span class="badge badge-green"><span class="dot"></span> Actif</span>
+                                <% } else if (a.status_generalized?.code === 'EXPIRE') { %>
+                                    <span class="badge badge-red"><span class="dot"></span> Expiré</span>
+                                <% } else if (a.status_generalized?.code === 'FUTUR') { %>
+                                    <span class="badge badge-yellow"><span class="dot"></span> Futur</span>
+                                <% } else { %>
+                                    <span class="badge badge-neutral"><span class="dot"></span> <%= a.status_generalized?.label || '—' %></span>
+                                <% } %>
+                            </td>
+                            <td class="days-remaining">
+                                <% if (diff > 0) { %>
+                                    <%= diff %> j
+                                <% } else { %>
+                                    <span style="color: var(--red)">Expiré</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+    </div>
+
+    <!-- USERS TABLE -->
+    <div class="section">
+        <div class="section-header">
+            <span class="section-title">Utilisateurs</span>
+            <% if (users && users.length > 0) { %>
+                <span class="count-chip"><%= users.length %></span>
+            <% } %>
+        </div>
+
+        <% if (!users || users.length === 0) { %>
+            <div class="empty-state">Aucun utilisateur pour cette company</div>
+        <% } else { %>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Identifiant</th>
+                        <th>Actif</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(u => { %>
+                        <tr>
+                            <td class="mono">#<%= u.id %></td>
+                            <td>
+                                <a href="/admin/users/<%= u.id %>" class="user-link"><%= u.name %></a>
+                            </td>
+                            <td><%= u.prenom %></td>
+                            <td class="mono"><%= u.identifiant %></td>
+                            <td>
+                                <span class="actif-indicator">
+                                    <span class="actif-dot <%= u.actif ? 'oui' : 'non' %>"></span>
+                                    <%= u.actif ? 'Oui' : 'Non' %>
+                                </span>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+    </div>
+
+</main>
+
+<script>
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        document.getElementById('btn-light').classList.toggle('active', theme === 'light');
+        document.getElementById('btn-dark').classList.toggle('active', theme === 'dark');
+        localStorage.setItem('theme', theme);
+    }
+
+    // Restore saved theme
+    const saved = localStorage.getItem('theme');
+    if (saved) setTheme(saved);
+</script>
 
 </body>
 </html>

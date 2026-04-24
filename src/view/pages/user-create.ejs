@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Créer User</title>
+</head>
+<body>
+
+<h1>Créer un utilisateur 👤</h1>
+
+<form method="POST" action="/admin/companies/<%= companyId %>/users">
+
+    <!-- IMPORTANT -->
+    <input type="hidden" name="company_id" value="<%= companyId %>">
+
+    <label>Matricule :</label><br>
+    <input type="text" name="matricule" required><br><br>
+
+    <label>Nom :</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Prénom :</label><br>
+    <input type="text" name="prenom" required><br><br>
+
+    <label>Identifiant :</label><br>
+    <input type="text" name="identifiant" required><br><br>
+
+    <label>Mot de passe :</label><br>
+    <input type="password" name="mot_de_passe_hash" required><br><br>
+
+    <h3>Permissions</h3>
+
+    <label><input type="checkbox" name="peut_ouvrir_caisse"> Ouvrir caisse</label><br>
+    <label><input type="checkbox" name="peut_fermer_caisse"> Fermer caisse</label><br>
+    <label><input type="checkbox" name="peut_valider_transaction"> Valider transaction</label><br>
+    <label><input type="checkbox" name="peut_voir_rapports"> Voir rapports</label><br>
+    <label><input type="checkbox" name="peut_gerer_utilisateurs"> Gérer utilisateurs</label><br><br>
+
+    <button type="submit">Créer</button>
+
+</form>
+
+<br>
+<a href="/admin/companies/<%= companyId %>">⬅ Retour</a>
+
+</body>
+</html>

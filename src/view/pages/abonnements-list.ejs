@@ -1,0 +1,34 @@
+<h1>Gestion des abonnements 💳</h1>
+
+<a href="/admin/abonnements/create">
+    <button>➕ Nouveau abonnement</button>
+</a>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Prix</th>
+        <th>Durée</th>
+        <th>Actions</th>
+    </tr>
+
+    <% abonnements.forEach(a => { %>
+        <tr>
+            <td><%= a.id %></td>
+            <td><%= a.nom %></td>
+            <td><%= a.prix %></td>
+            <td><%= a.duree_jours %> jours</td>
+
+            <td>
+                <a href="/admin/abonnements/<%= a.id %>/edit">
+                    ✏️
+                </a>
+
+                <form method="POST" action="/admin/abonnements/<%= a.id %>/delete" style="display:inline;">
+                    <button>❌</button>
+                </form>
+            </td>
+        </tr>
+    <% }) %>
+</table>

@@ -1,0 +1,21 @@
+<h1>Ajouter abonnement 💳</h1>
+
+<form method="POST" action="/admin/companies/<%= companyId %>/abonnements">
+
+    <label>Choisir abonnement :</label><br>
+
+    <select name="abonnement_id">
+        <% abonnements.forEach(a => { %>
+            <option value="<%= a.id %>">
+                <%= a.nom %> - <%= a.prix %> Ar - <%= a.duree_jours %> jours
+            </option>
+        <% }) %>
+    </select>
+
+    <br><br>
+
+    <button type="submit">Valider</button>
+</form>
+
+<br>
+<a href="/admin/companies/<%= companyId %>">⬅ Retour</a>

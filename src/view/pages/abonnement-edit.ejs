@@ -1,0 +1,12 @@
+<h1>Modifier abonnement</h1>
+
+<form method="POST" action="/admin/abonnements/<%= abonnement.id %>/update">
+
+    <input name="nom" value="<%= abonnement.nom %>"><br><br>
+    <input name="prix" value="<%= abonnement.prix %>"><br><br>
+    <input name="duree_jours" value="<%= abonnement.duree_jours %>"><br><br>
+
+    <textarea name="description"><%= abonnement.description %></textarea><br><br>
+
+    <button type="submit">Modifier</button>
+</form>

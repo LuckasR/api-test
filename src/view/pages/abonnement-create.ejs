@@ -1,0 +1,12 @@
+<h1>Créer abonnement</h1>
+
+<form method="POST" action="/admin/abonnements">
+
+    <input name="nom" placeholder="Nom" required><br><br>
+    <input name="prix" type="number" step="0.01" placeholder="Prix" required><br><br>
+    <input name="duree_jours" type="number" placeholder="Durée (jours)" required><br><br>
+
+    <textarea name="description" placeholder="Description"></textarea><br><br>
+
+    <button type="submit">Créer</button>
+</form>
