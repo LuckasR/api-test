@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste Companies</title>
+</head>
+<body>
+
+<h1>Liste des Companies 🏢</h1>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Ville</th>
+        <th>Pays</th>
+    </tr>
+
+    <% companies.forEach(c => { %>
+        <tr onclick="window.location='/admin/companies/<%= c.id %>'" style="cursor:pointer;">
+            <td><%= c.id %></td>
+            <td><%= c.name %></td>
+            <td><%= c.ville %></td>
+            <td><%= c.pays %></td>
+        </tr>
+    <% }) %>
+
+</table>
+
+</body>
+</html>
