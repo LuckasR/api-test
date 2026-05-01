@@ -46,6 +46,9 @@ export const deletes = async (id) => {
 };
 
 export const getGrilleTarif = async (companyId, zoneId, typeOperationId) => {
+  if(typeOperationId == 1) {
+    zoneId = null; // Traiter la zone 1 comme une valeur nulle
+  }
   const { data, error } = await supabase.rpc('get_grille_tarif', {
     p_company_id: companyId,
     p_zone_id: zoneId,
