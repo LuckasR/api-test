@@ -1,9 +1,9 @@
-import * as companyService from '../services/companyService.js';
+import * as companyServices from '../services/companyServices.js';
 
 // CREATE
 export const create = async (req, res) => {
   try {
-    const company = await companyService.createCompany(req.body);
+    const company = await companyServices.createCompany(req.body);
     res.status(201).json(company);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -13,7 +13,7 @@ export const create = async (req, res) => {
 // GET ALL
 export const getAll = async (req, res) => {
   try {
-    const companies = await companyService.getAllCompanies();
+    const companies = await companyServices.getAllCompanies();
     res.json(companies);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -23,7 +23,7 @@ export const getAll = async (req, res) => {
 // GET ONE
 export const getById = async (req, res) => {
   try {
-    const company = await companyService.getCompanyById(req.params.id);
+    const company = await companyServices.getCompanyById(req.params.id);
     res.json(company);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -33,7 +33,7 @@ export const getById = async (req, res) => {
 // UPDATE
 export const update = async (req, res) => {
   try {
-    const company = await companyService.updateCompany(req.params.id, req.body);
+    const company = await companyServices.updateCompany(req.params.id, req.body);
     res.json(company);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -43,7 +43,7 @@ export const update = async (req, res) => {
 // DELETE
 export const remove = async (req, res) => {
   try {
-    await companyService.deleteCompany(req.params.id);
+    await companyServices.deleteCompany(req.params.id);
     res.json({ message: 'Deleted successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });

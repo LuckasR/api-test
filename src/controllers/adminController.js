@@ -1,4 +1,4 @@
-import * as companyService from '../services/companyService.js';
+import * as companyServices from '../services/companyServices.js';
 import * as userService from '../services/userService.js';
 import * as abonnementService from '../services/abonnementService.js';
 import * as companyAbonnementService from '../services/companyAbonnementService.js';
@@ -12,7 +12,7 @@ export const showCreateForm = (req, res) => {
 // traiter le formulaire
 export const createCompany = async (req, res) => {
   try {
-    await companyService.createCompany(req.body);
+    await companyServices.createCompany(req.body);
 
     // redirection après création
     res.redirect('/admin/companies/create');
@@ -25,7 +25,7 @@ export const createCompany = async (req, res) => {
 // LISTE
 export const listCompanies = async (req, res) => {
   try {
-    const companies = await companyService.getAllCompanies();
+    const companies = await companyServices.getAllCompanies();
     res.render('pages/company-list', { companies });
   } catch (err) {
     res.status(500).send(err.message);
@@ -37,7 +37,7 @@ export const showCompany = async (req, res) => {
   try {
     const companyId = req.params.id;
 
-    const company = await companyService.getCompanyById(companyId);
+    const company = await companyServices.getCompanyById(companyId);
     const users = await userService.getUsersByCompany(companyId);
     const abonnements = await companyAbonnementService.getByCompany(companyId);
 
