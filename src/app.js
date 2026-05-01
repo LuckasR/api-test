@@ -11,11 +11,10 @@ const app = express();
 
 //  Configuration du project 
 // Gestion des CORS pour permettre les requêtes depuis le frontend Ionic
-  app.use(cors({
-    origin: "http://localhost:8100",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
-  }));
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"]
+}));
 
 // config EJS
   app.set('view engine', 'ejs');
