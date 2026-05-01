@@ -3,39 +3,53 @@ import userRoutes from './routes/userRoutes.js';
 import path from 'path';
 import companyRoutes from './routes/companyRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
-
+import mainRouter from './routes/mainRoutes.js';
+import cors from "cors";
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+//  Configuration du project 
+// Gestion des CORS pour permettre les requêtes depuis le frontend Ionic
+  app.use(cors({
+    origin: "http://localhost:8100",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  }));
 
 // config EJS
-app.set('view engine', 'ejs');
-app.set('views', path.join(process.cwd(), 'src/view'));
+  app.set('view engine', 'ejs');
+  app.set('views', path.join(process.cwd(), 'src/view'));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
-
-app.use('/api/companies', companyRoutes);
-// routes
-app.use('/api', userRoutes);
-
-app.use('/admin', adminRoutes);
-
-// 👇 route test dashboard
-app.get('/admin/dashboard', (req, res) => {
-  res.render('pages/dashboard');
+app.use((req, res, next) => {
+  console.log("URL:", req.method, req.url);
+  next();
 });
+// GESTION  des routes
+  // routes app
+    app.use("/main", mainRouter);
+    app.use('/api/companies', companyRoutes);
+    
+    app.use('/api', userRoutes);
 
+    app.use('/admin', adminRoutes);
 
+    // 👇 route test dashboard
+    app.get('/admin/dashboard', (req, res) => {
+      res.render('pages/dashboard');
+    });
 
-// test
-app.get('/', (req, res) => {
-  res.send('API OK 🚀');
-});
+  // test
+  app.get('/', (req, res) => {
+    res.send('API OK 🚀');
+  });
 
-// ping (Render)
-app.get('/ping', (req, res) => {
-  res.send('pong');
-});
+  // ping (Render)
+  app.get('/ping', (req, res) => {
+    res.send('pong');
+  });
 
+  
 export default app;
